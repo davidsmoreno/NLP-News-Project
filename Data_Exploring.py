@@ -78,7 +78,7 @@ df1 = pd.DataFrame(adjacent_phrases, columns=["PhraseIndex", "SearchWordIndex", 
 
 
 
-
+##Genera una columna stori_id(n)
 
 
 
