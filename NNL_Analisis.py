@@ -101,6 +101,84 @@ def filter_phrases_by_neighbors(phrases, list_ny_neighbors):
 filtered_phrases, corresponding_neighbors = filter_phrases_by_neighbors1(phrases, list_ny_neighbors)
 
 
+def clean_phrases(filtered_phrases, corresponding_neighbors):
+    cleaned_phrases = []
+
+    for phrase, neighbor in zip(filtered_phrases, corresponding_neighbors):
+        # Replace the neighborhood name with an empty string in the phrase
+        cleaned_phrase = phrase.replace(neighbor, '').strip()
+        cleaned_phrases.append(cleaned_phrase)
+
+    return cleaned_phrases
+
+
+filter_phrases_no_neighbors=clean_phrases(filtered_phrases,corresponding_neighbors)
+
+
+# nlp = spacy.load("en_core_web_md")
+
+
+# similarity_matrix = []
+
+# for phrase1 in filter_phrases_no_neighbors:
+#     row = []
+#     for phrase2 in filter_phrases_no_neighbors:
+#         doc1 = nlp(phrase1)
+#         doc2 = nlp(phrase2)
+#         similarity_score = doc1.similarity(doc2)
+#         row.append(similarity_score)
+#     similarity_matrix.append(row)
+
+# print(similarity_matrix)
+
+
+verbs = []
+
+# Process each phrase and extract verbs
+for phrase in filter_phrases_no_neighbors:
+    doc = nlp(phrase)
+    for token in doc:
+        if token.pos_ == "VERB":
+            verbs.append(token.lemma_)
+
+# Get the first 20 verbs
+first_20_verbs = verbs[:20]
+
+
+noun_phrases = []
+verb_phrases = []
+other_verbs_phrases = []
+
+# Process each phrase and categorize words
+for phrase in filter_phrases_no_neighbors:
+    doc = nlp(phrase)
+    nouns = []
+    verbs = []
+    other_verbs = []
+
+    for token in doc:
+        if token.pos_ == "NOUN":
+            nouns.append(token.text)
+        elif token.pos_ == "VERB":
+            verbs.append(token.text)
+        elif token.pos_ == "AUX":  # Auxiliary verbs (e.g., "am," "is," "are")
+            other_verbs.append(token.text)
+
+    noun_phrases.append(nouns)
+    verb_phrases.append(verbs)
+    other_verbs_phrases.append(other_verbs)
+
+# Print the categorized phrases for each type
+for i in range(len(filter_phrases_no_neighbors)):
+    print("Phrase:", filter_phrases_no_neighbors[i])
+    print("Nouns:", noun_phrases[i])
+    print("Verbs:", verb_phrases[i])
+    print("Other Verbs:", other_verbs_phrases[i])
+    print()
+
+
+
+
 
 ####################CLustering######################
 
