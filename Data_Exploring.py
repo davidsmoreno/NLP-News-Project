@@ -8,7 +8,6 @@ from sklearn.cluster import KMeans
 
 
 
-
 #Read the data
 data = pd.read_csv("data.csv")
 neighbors=pd.read_csv("NeighborhoodsUsa.csv")
